@@ -6,6 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "es6-promise": "^2.0.1",
     "react-native": "^0.1.0"
   }
 }

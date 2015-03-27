@@ -10,8 +10,12 @@ var {
   ListView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } = React;
+
+var DetailView = require('./DetailView');
+var ShipCell = require('./ShipCell');
 
 var SearchScreen = React.createClass({
   getInitialState: function() {
@@ -27,22 +31,50 @@ var SearchScreen = React.createClass({
     this.fetchData();
   },
 
-  fetchData: function() {
-    fetch('http://swapi.co/api/starships/')
-    .then((resp) => resp.json())
-    .then((response) => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(response.results),
-        loaded: true
-      })
-    }).done()
+  _handleShipClick: function(ship) {
+    this.props.navigator.push({
+      title: 'Detail',
+      component: DetailView,
+      backButtonTitle: 'Back',
+      passProps: ship
+    })
   },
 
-  renderShip: function(ship) {
+  getShips: function() {
+    return new Promise((resolve, reject) => {
+      var results = [];
+
+      get('http://swapi.co/api/starships/');
+
+      function get(url) {
+        fetch(url)
+        .then((resp) => resp.json())
+        .then((response) => {
+          results = results.concat(response.results);
+          // API returns a link to the next page if there are more results
+          if (response.next && typeof response.next === 'string') {
+            get(response.next);
+          } else {
+            resolve(results)
+          }
+        })
+      }
+
+    })
+  },
+
+  fetchData: function() {
+    this.getShips('http://swapi.co/api/starships/').then((results) => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(results),
+        loaded: true
+      });
+    });
+  },
+
+  renderRow: function(ship) {
     return (
-      <View style={styles.container}>
-        <Text>{ship.name}</Text>
-      </View>
+      <ShipCell onPress={() => this._handleShipClick(ship)} ship={ship} />
     )
   },
 
@@ -54,7 +86,7 @@ var SearchScreen = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderShip}
+        renderRow={this.renderRow}
         style={styles.listView}
       />
     );
@@ -62,25 +94,17 @@ var SearchScreen = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-    borderBottomWidth: 1,
-    borderColor: '#eeeeee',
-    padding: 20
-  },
   loading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    borderBottomWidth: 1,
-    borderColor: '#eeeeee',
-    padding: 20
   },
   listView: {
-    // paddingTop: 20,
+    paddingLeft: 20,
     backgroundColor: '#F5FCFF',
+    borderBottomWidth: 1,
+    borderColor: '#eeeeee',
   },
 });
 
