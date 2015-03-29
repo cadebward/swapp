@@ -38,7 +38,11 @@ var styles = StyleSheet.create({
     paddingTop: 20,
     paddingRight: 20,
     paddingBottom: 20,
+    paddingLeft: 8,
   },
+  cell: {
+    paddingLeft: 20,
+  }
 });
 
 module.exports = ShipCell;
