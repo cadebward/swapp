@@ -16,6 +16,7 @@ var {
 
 var DetailView = require('./DetailView');
 var ShipCell = require('./ShipCell');
+var SearchBar = require('./SearchBar');
 
 var SearchScreen = React.createClass({
   getInitialState: function() {
@@ -66,6 +67,7 @@ var SearchScreen = React.createClass({
   fetchData: function() {
     this.getShips('http://swapi.co/api/starships/').then((results) => {
       this.setState({
+        starships: results,
         dataSource: this.state.dataSource.cloneWithRows(results),
         loaded: true
       });
@@ -78,33 +80,56 @@ var SearchScreen = React.createClass({
     )
   },
 
+  searchChange: function(e) {
+    var text = e.nativeEvent.text.toLowerCase();
+    var re = new RegExp(text.toLowerCase());
+    var filteredShips = [];
+    var ships = this.state.starships;
+    for (var i = 0; i < ships.length; ++i) {
+      if (ships[i].name.toLowerCase().match(re)) {
+        filteredShips.push(ships[i]);
+      }
+    }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(filteredShips)
+    });
+  },
+
   render: function() {
     if (!this.state.loaded) {
       return <View style={styles.loading}><Text>Loading Starships...</Text></View>
     }
 
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        style={styles.listView}
-      />
+      <View style={styles.container}>
+        <SearchBar
+          onChange={this.searchChange}
+        />
+        <View style={styles.seperator}/>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+          automaticallyAdjustContentInsets={false}
+        />
+      </View>
     );
   }
 });
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   loading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  listView: {
-    paddingLeft: 20,
-    backgroundColor: '#F5FCFF',
-    borderBottomWidth: 1,
-    borderColor: '#eeeeee',
+  seperator: {
+    height: 1,
+    backgroundColor: '#eeeeee'
   },
 });
 
