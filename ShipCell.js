@@ -9,6 +9,7 @@
 
 var React = require('react-native');
 var {
+  Image,
   View,
   TouchableHighlight,
   StyleSheet,
@@ -21,7 +22,13 @@ var ShipCell = React.createClass({
       <View>
         <TouchableHighlight onPress={this.props.onPress}>
           <View style={styles.container}>
-            <Text>{ this.props.ship.name }</Text>
+            <View>
+              <Text style={styles.name}>{ this.props.ship.name }</Text>
+              <View style={styles.info}>
+                <Text style={styles.cost}>Price: { this.props.ship.cost_in_credits }</Text>
+                <Text style={styles.pilot}>Pilots: { this.props.ship.pilots.length }</Text>
+              </View>
+            </View>
           </View>
         </TouchableHighlight>
       </View>
@@ -42,6 +49,29 @@ var styles = StyleSheet.create({
   },
   cell: {
     paddingLeft: 20,
+  },
+  cost: {
+    fontSize: 12,
+  },
+  pilot: {
+    fontSize: 12,
+    marginLeft: 15
+  },
+  info: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  name: {
+    fontSize: 16
+  },
+  chevron: {
+    flex: 10,
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+    top: -20,
+    width: 20,
+    height: 20,
   }
 });
 
