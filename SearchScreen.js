@@ -5,6 +5,10 @@
 
 'use strict';
 
+// load fake data while developing... their api is slow
+var DEV = true;
+
+
 var React = require('react-native');
 var {
   ListView,
@@ -17,6 +21,7 @@ var {
 var DetailView = require('./DetailView');
 var ShipCell = require('./ShipCell');
 var SearchBar = require('./SearchBar');
+
 
 var SearchScreen = React.createClass({
   getInitialState: function() {
@@ -45,7 +50,12 @@ var SearchScreen = React.createClass({
     return new Promise((resolve, reject) => {
       var results = [];
 
-      get('http://swapi.co/api/starships/');
+      if (DEV) {
+        results = require('./fakeData');
+        resolve(results);
+      } else {
+        get('http://swapi.co/api/starships/');
+      }
 
       function get(url) {
         fetch(url)
@@ -58,10 +68,9 @@ var SearchScreen = React.createClass({
           } else {
             resolve(results)
           }
-        })
+        });
       }
-
-    })
+    });
   },
 
   fetchData: function() {
