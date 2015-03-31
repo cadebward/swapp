@@ -43,7 +43,7 @@ var CostFilter = React.createClass({
   },
 
   filterSwitchChange: function(value) {
-    this.setState({sortSwitch: value});
+    this.setState({filterSwitch: value});
     this.props.onFilterSwitchChange(value);
   },
 
