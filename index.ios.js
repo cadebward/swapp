@@ -16,7 +16,19 @@ var {
 
 var SearchScreen = require('./SearchScreen');
 
+var listeners = [];
+
 var SWAPP = React.createClass({
+  register: function(cb) {
+    listeners.push(cb);
+  },
+
+  filter: function() {
+    listeners.forEach(function(cb) {
+      cb();
+    });
+  },
+
   render: function() {
     return (
       <NavigatorIOS
@@ -24,6 +36,9 @@ var SWAPP = React.createClass({
         initialRoute={{
           title: 'Starships',
           component: SearchScreen,
+          rightButtonTitle: 'Filter',
+          onRightButtonPress: this.filter,
+          passProps: {register: this.register}
         }}
       />
     );

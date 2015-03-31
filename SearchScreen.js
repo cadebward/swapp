@@ -14,6 +14,7 @@ var {
   ListView,
   StyleSheet,
   Text,
+  SliderIOS,
   TouchableHighlight,
   View
 } = React;
@@ -21,6 +22,7 @@ var {
 var DetailView = require('./DetailView');
 var ShipCell = require('./ShipCell');
 var SearchBar = require('./SearchBar');
+var CostFilter = require('./CostFilter');
 
 
 var SearchScreen = React.createClass({
@@ -30,6 +32,7 @@ var SearchScreen = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      showFilter: false,
     }
   },
 
@@ -105,6 +108,24 @@ var SearchScreen = React.createClass({
     });
   },
 
+  sortSwitchChange: function(bool) {
+    console.log('sort changed');
+  },
+
+  filterSwitchChange: function(bool) {
+    console.log('filter changed');
+  },
+
+  sliderChange: function(value) {
+    console.log('slider changed');
+  },
+
+  filter: function() {
+    this.setState({
+      showFilter: true
+    })
+  },
+
   render: function() {
     if (!this.state.loaded) {
       return <View style={styles.loading}><Text>Loading Starships...</Text></View>
@@ -114,6 +135,14 @@ var SearchScreen = React.createClass({
       <View style={styles.container}>
         <SearchBar
           onChange={this.searchChange}
+        />
+        <View style={styles.seperator}/>
+        <CostFilter 
+          onSortSwitchChange={this.sortSwitchChange} 
+          onFilterSwitchChange={this.filterSwitchChange} 
+          onSliderChange={this.sliderChange}
+          showFilter={this.state.showFilter}
+          register={this.props.register}
         />
         <View style={styles.seperator}/>
         <ListView
