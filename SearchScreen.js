@@ -80,7 +80,10 @@ var SearchScreen = React.createClass({
     this.getShips('http://swapi.co/api/starships/').then((results) => {
       this.setState({
         starships: results,
-        dataSource: this.state.dataSource.cloneWithRows(results),
+        dataSource: this.state.dataSource.cloneWithRows(results.sort(function(a, b){
+          if (a.cost_in_credits === 'unknown') return 1;
+          return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
+        })),
         loaded: true
       });
     });
@@ -109,7 +112,20 @@ var SearchScreen = React.createClass({
   },
 
   sortSwitchChange: function(bool) {
-    console.log('sort changed');
+    var sortedArray = this.state.starships.sort(function(a, b) {
+      // move 'unknown' to bottom
+      if (a.cost_in_credits === 'unknown') return 1;
+      return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
+    });
+
+    if (bool) {
+      sortedArray.reverse();
+    }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(sortedArray)
+    });
+    this.forceUpdate()
   },
 
   filterSwitchChange: function(bool) {

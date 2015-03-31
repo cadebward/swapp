@@ -65,7 +65,7 @@ var CostFilter = React.createClass({
       }
     });
 
-    var SortText = (this.state.sortSwitch) ? 'Sorted Asc' : 'Sorted Desc';
+    var SortText = (this.state.sortSwitch) ? 'Sorted Desc' : 'Sorted Asc';
 
     return (
       <View style={showFilter.filter}>
@@ -113,7 +113,6 @@ var styles = StyleSheet.create({
     marginTop: 5,
   },
   sliderInput: {
-    fontSize: 15,
     flex: 1,
     height: 30,
   },
