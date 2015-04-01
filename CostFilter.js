@@ -49,12 +49,12 @@ var CostFilter = React.createClass({
 
   filterSliderChange: function(value) {
     this.setState({
-      filterPrice: Math.floor((value * 100000) + 1000)
+      filterPrice: Math.floor((value * 1000000) + 1000)
     })
   },
 
   filterSliderComplete: function(value) {
-    this.props.onSliderChange(Math.floor((value * 100000) + 1000))
+    this.props.onSliderChange(Math.floor((value * 1000000) + 1000))
   },
 
   render: function() {

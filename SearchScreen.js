@@ -33,6 +33,8 @@ var SearchScreen = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       showFilter: false,
+      filterByPrice: false,
+      filterPrice: 1000,
     }
   },
 
@@ -125,21 +127,44 @@ var SearchScreen = React.createClass({
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(sortedArray)
     });
-    this.forceUpdate()
   },
 
   filterSwitchChange: function(bool) {
-    console.log('filter changed');
+    if (bool) {
+      this.setState({
+        filterByPrice: true
+      })
+      this.filterByPrice();
+    } else {
+      this.setState({
+        filterByPrice: false,
+        dataSource: this.state.dataSource.cloneWithRows(this.state.starships),
+      })
+    }
   },
 
   sliderChange: function(value) {
-    console.log('slider changed');
+    this.setState({
+      filterPrice: value
+    });
+
+    if (this.state.filterByPrice) {
+      this.filterByPrice();
+    }
   },
 
-  filter: function() {
+  filterByPrice: function() {
+    var filteredShips = [];
+    var ships = this.state.starships;
+    for (var i = 0; i < ships.length; ++i) {
+      if (parseFloat(ships[i].cost_in_credits) < this.state.filterPrice) {
+        filteredShips.push(ships[i]);
+      }
+    }
     this.setState({
-      showFilter: true
-    })
+      dataSource: this.state.dataSource.cloneWithRows(filteredShips),
+      filteredByPriceList: filteredShips,
+    });
   },
 
   render: function() {
