@@ -18,7 +18,9 @@ var DetailView = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text>{this.props.name}</Text>
+        <Text style={styles.title}>{this.props.name}</Text>
+        <Text>Cost: {this.props.cost_in_credits}</Text>
+        <Text>Pilots: {this.props.pilots.length} view</Text>
       </View>
     );
   }
@@ -27,9 +29,14 @@ var DetailView = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    paddingTop: 40
+    backgroundColor: '#F5FCFF',
+    padding: 20,
+    paddingTop: 80
   },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  }
 });
 
 module.exports = DetailView;

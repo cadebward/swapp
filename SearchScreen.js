@@ -73,19 +73,25 @@ var SearchScreen = React.createClass({
           } else {
             resolve(results)
           }
-        });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
       }
     });
   },
 
   fetchData: function() {
     this.getShips('http://swapi.co/api/starships/').then((results) => {
+
+      results.sort(function(a, b){
+        if (a.cost_in_credits === 'unknown') return 1;
+        return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
+      });
+
       this.setState({
         starships: results,
-        dataSource: this.state.dataSource.cloneWithRows(results.sort(function(a, b){
-          if (a.cost_in_credits === 'unknown') return 1;
-          return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
-        })),
+        dataSource: this.getDataSource(results),
         loaded: true
       });
     });
@@ -95,6 +101,10 @@ var SearchScreen = React.createClass({
     return (
       <ShipCell onPress={() => this._handleShipClick(ship)} ship={ship} />
     )
+  },
+
+  getDataSource: function(ships) {
+    return this.state.dataSource.cloneWithRows(ships);
   },
 
   searchChange: function(e) {
@@ -109,23 +119,13 @@ var SearchScreen = React.createClass({
     }
 
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(filteredShips)
+      dataSource: this.getDataSource(filteredShips)
     });
   },
 
   sortSwitchChange: function(bool) {
-    var sortedArray = this.state.starships.sort(function(a, b) {
-      // move 'unknown' to bottom
-      if (a.cost_in_credits === 'unknown') return 1;
-      return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
-    });
-
-    if (bool) {
-      sortedArray.reverse();
-    }
-
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(sortedArray)
+      dataSource: this.getDataSource(this.state.starships.reverse())
     });
   },
 
@@ -138,7 +138,7 @@ var SearchScreen = React.createClass({
     } else {
       this.setState({
         filterByPrice: false,
-        dataSource: this.state.dataSource.cloneWithRows(this.state.starships),
+        dataSource: this.getDataSource(this.state.starships),
       })
     }
   },
@@ -162,7 +162,7 @@ var SearchScreen = React.createClass({
       }
     }
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(filteredShips),
+      dataSource: this.getDataSource(filteredShips),
       filteredByPriceList: filteredShips,
     });
   },
