@@ -111,7 +111,7 @@ var SearchScreen = React.createClass({
     var text = e.nativeEvent.text.toLowerCase();
     var re = new RegExp(text.toLowerCase());
     var filteredShips = [];
-    var ships = this.state.starships;
+    var ships = (this.state.filterByPrice) ? this.state.filteredByPriceList : this.state.starships;
     for (var i = 0; i < ships.length; ++i) {
       if (ships[i].name.toLowerCase().match(re)) {
         filteredShips.push(ships[i]);
@@ -124,9 +124,15 @@ var SearchScreen = React.createClass({
   },
 
   sortSwitchChange: function(bool) {
-    this.setState({
-      dataSource: this.getDataSource(this.state.starships.reverse())
-    });
+    if (this.state.filterByPrice) {
+      this.setState({
+        dataSource: this.getDataSource(this.state.filteredByPriceList.reverse())
+      })
+    } else {
+      this.setState({
+        dataSource: this.getDataSource(this.state.starships.reverse())
+      }); 
+    }
   },
 
   filterSwitchChange: function(bool) {
