@@ -26,9 +26,11 @@ var PilotListView = React.createClass({
 
   renderRow: function(pilot) {
     return (
-      <View style={styles.container}>
+      <View>
         <TouchableHighlight onPress={() => this.props.onPress(pilot)}>
-          <Text>{ pilot.name }</Text>
+          <View style={styles.container}>
+            <Text>{ pilot.name }</Text>
+          </View>
         </TouchableHighlight>
       </View>
     )
