@@ -1,6 +1,7 @@
 /**
  * SearchBar Component
  * 
+ * Used to filter starships by name on the main page.
  */
 
 'use strict';
@@ -9,7 +10,7 @@ var React = require('react-native');
 var {
   StyleSheet,
   TextInput,
-  View
+  View,
 } = React;
 
 var SearchBar = React.createClass({

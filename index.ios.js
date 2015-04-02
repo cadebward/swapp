@@ -3,6 +3,8 @@
  * 
  * React Native
  * https://github.com/facebook/react-native
+ * 
+ * Cade Ward April 2015
  */
 
 'use strict';

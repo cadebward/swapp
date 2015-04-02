@@ -1,8 +1,7 @@
 /**
- * PilotDetail
+ * PilotDetail component
  * 
- * React Native
- * https://github.com/facebook/react-native
+ * Provides a component for displaying details about a pilot.
  */
 
 'use strict';

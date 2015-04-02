@@ -1,29 +1,24 @@
 /**
  * SearchScreen
  * 
+ * Main Starship screen. Displays a ListView of all starships from
+ * the SW API.
  */
 
 'use strict';
-
-// load fake data while developing... their api is slow
-var DEV = false;
-
 
 var React = require('react-native');
 var {
   ListView,
   StyleSheet,
   Text,
-  SliderIOS,
-  TouchableHighlight,
-  View
+  View,
 } = React;
 
 var DetailView = require('./DetailView');
 var ShipCell = require('./ShipCell');
 var SearchBar = require('./SearchBar');
 var CostFilter = require('./CostFilter');
-
 
 var SearchScreen = React.createClass({
   getInitialState: function() {
@@ -54,12 +49,7 @@ var SearchScreen = React.createClass({
     return new Promise((resolve, reject) => {
       var results = [];
 
-      if (DEV) {
-        results = require('./fakeData');
-        resolve(results);
-      } else {
-        get('http://swapi.co/api/starships/');
-      }
+      get('http://swapi.co/api/starships/');
 
       function get(url) {
         fetch(url)

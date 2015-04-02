@@ -1,8 +1,7 @@
 /**
- * PilotListView
+ * PilotListView component
  * 
- * React Native
- * https://github.com/facebook/react-native
+ * Wraps ListView for easily displaying pilots of a starship.
  */
 
 'use strict';

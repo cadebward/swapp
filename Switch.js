@@ -1,15 +1,13 @@
 /**
- * FilterCost component
+ * Switch component
  *
+ * Wraps the SwitchIOS component
  */
 
 'use strict';
 
 var React = require('react-native');
 var {
-  Text,
-  TextInput,
-  StyleSheet,
   SwitchIOS,
   View,
 } = React;
@@ -35,13 +33,6 @@ var Switch = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
 });
 
 module.exports = Switch;

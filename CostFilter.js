@@ -1,23 +1,21 @@
 /**
  * FilterCost component
  *
+ * Contains a SwitchIOS for sorting starships and a TextInput for
+ * filtering by amount.
  */
 
 'use strict';
 
 var React = require('react-native');
 var {
-  SliderIOS,
-  StyleSheet,
-  SwitchIOS,
   Text,
   TextInput,
+  StyleSheet,
   View,
 } = React;
 
 var Switch = require('./Switch');
-
-var FILTER_STATUS = false;
 
 var CostFilter = React.createClass({
   getInitialState: function() {
@@ -43,11 +41,6 @@ var CostFilter = React.createClass({
     this.props.onSortSwitchChange(value);
   },
 
-  filterSwitchChange: function(value) {
-    this.setState({filterSwitch: value});
-    this.props.onFilterSwitchChange(value);
-  },
-
   filterValue: function(e) {
     var text = e.nativeEvent.text.toLowerCase();
     this.props.onFilterValueChange(text)
@@ -69,7 +62,7 @@ var CostFilter = React.createClass({
           <Text style={styles.filterText}>{ SortText }</Text>
           <Switch onChange={this.sortSwitchChange}/>
         </View>
-        <View style={styles.slider}>
+        <View style={styles.inputContainer}>
           <Text style={styles.sliderText}>Do not use commas. eg: 10000</Text>
           <TextInput 
             style={styles.textInput}
@@ -115,7 +108,7 @@ var styles = StyleSheet.create({
     marginTop: 1,
     paddingLeft: 8,
   },
-  slider: {
+  inputContainer: {
     flex: 2,
     paddingRight: 8,
   },

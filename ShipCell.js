@@ -1,19 +1,18 @@
 /**
- * ShipCell
+ * ShipCell component
  * 
- * React Native
- * https://github.com/facebook/react-native
+ * Cell component used for each individual cell in the startships 
+ * ListView. 
  */
 
 'use strict';
 
 var React = require('react-native');
 var {
-  Image,
   View,
   TouchableHighlight,
   StyleSheet,
-  Text
+  Text,
 } = React;
 
 var currency = require('./currency');
@@ -49,9 +48,6 @@ var styles = StyleSheet.create({
     paddingBottom: 20,
     paddingLeft: 8,
   },
-  cell: {
-    paddingLeft: 20,
-  },
   cost: {
     fontSize: 12,
   },
@@ -67,14 +63,6 @@ var styles = StyleSheet.create({
   name: {
     fontSize: 16
   },
-  chevron: {
-    flex: 10,
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
-    top: -20,
-    width: 20,
-    height: 20,
-  }
 });
 
 module.exports = ShipCell;

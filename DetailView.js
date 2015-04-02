@@ -1,8 +1,7 @@
 /**
- * DetailView
+ * DetailView component
  * 
- * React Native
- * https://github.com/facebook/react-native
+ * Provides a component for displaying detailed ship info.
  */
 
 'use strict';
@@ -52,8 +51,7 @@ var DetailView = React.createClass({
             loaded: true,
           });
         }
-      // }).catch((error) => {this.setState({networkError: true})})
-      }).catch((error) => {console.log(error)})
+      }).catch((error) => {this.setState({networkError: true})})
     });
   },
 
