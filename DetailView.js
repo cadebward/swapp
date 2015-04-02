@@ -15,6 +15,7 @@ var {
 } = React;
 
 var PilotListView = require('./PilotListView');
+var PilotDetail = require('./PilotDetail');
 
 var DetailView = React.createClass({
   getInitialState: function() {
@@ -53,6 +54,15 @@ var DetailView = React.createClass({
     });
   },
 
+  onPilotPress: function(pilot) {
+    this.props.navigator.push({
+      title: 'Pilot',
+      component: PilotDetail,
+      backButtonTitle: 'Back',
+      passProps: pilot
+    })
+  },
+
   render: function() {
     var pilotList;
 
@@ -66,7 +76,12 @@ var DetailView = React.createClass({
     }
 
     if (this.props.pilots.length) {
-      pilotList = <PilotListView pilots={this.state.pilots} />
+      pilotList = (
+        <PilotListView 
+          pilots={this.state.pilots} 
+          onPress={this.onPilotPress}
+        />
+      )
     } else {
       pilotList = <View style={styles.pilots}><Text>No Pilots</Text></View>
     }

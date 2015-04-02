@@ -42,7 +42,7 @@ var SearchScreen = React.createClass({
     this.fetchData();
   },
 
-  _handleShipClick: function(ship) {
+  handleShipClick: function(ship) {
     this.props.navigator.push({
       title: 'Detail',
       component: DetailView,
@@ -99,7 +99,7 @@ var SearchScreen = React.createClass({
 
   renderRow: function(ship) {
     return (
-      <ShipCell onPress={() => this._handleShipClick(ship)} ship={ship} />
+      <ShipCell onPress={() => this.handleShipClick(ship)} ship={ship} />
     )
   },
 
