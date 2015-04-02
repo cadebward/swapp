@@ -16,6 +16,8 @@ var {
   Text
 } = React;
 
+var currency = require('./currency');
+
 var ShipCell = React.createClass({
   render: function() {
     return (
@@ -25,7 +27,7 @@ var ShipCell = React.createClass({
             <View>
               <Text style={styles.name}>{ this.props.ship.name }</Text>
               <View style={styles.info}>
-                <Text style={styles.cost}>Price: { this.props.ship.cost_in_credits }</Text>
+                <Text style={styles.cost}>Price: { currency(this.props.ship.cost_in_credits) }</Text>
                 <Text style={styles.pilot}>Pilots: { this.props.ship.pilots.length }</Text>
               </View>
             </View>

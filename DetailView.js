@@ -17,6 +17,8 @@ var {
 var PilotListView = require('./PilotListView');
 var PilotDetail = require('./PilotDetail');
 
+var currency = require('./currency');
+
 var DetailView = React.createClass({
   getInitialState: function() {
     return {
@@ -90,7 +92,7 @@ var DetailView = React.createClass({
       <View>
         <View style={styles.container}>
           <Text style={styles.title}>{this.props.name}</Text>
-          <Text>Cost: {this.props.cost_in_credits}</Text>
+          <Text>Price: { currency(this.props.cost_in_credits) }</Text>
         </View>
         <View style={styles.pilotsTitle}>
           <Text style={styles.pilots}>Pilots:</Text>
