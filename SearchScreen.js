@@ -29,12 +29,11 @@ var SearchScreen = React.createClass({
   getInitialState: function() {
     return {
       loaded: false,
+      showFilter: false,
+      filterByPrice: false,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => true,
       }),
-      showFilter: false,
-      filterByPrice: false,
-      filterPrice: 1000,
     }
   },
 
@@ -84,6 +83,8 @@ var SearchScreen = React.createClass({
   fetchData: function() {
     this.getShips('http://swapi.co/api/starships/').then((results) => {
 
+      // sort results leaving 'unknown' at the top
+      // 'unknown' is treated as lowest so it shows up in searches
       results.sort(function(a, b){
         if (a.cost_in_credits === 'unknown') return -1;
         return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
@@ -111,6 +112,7 @@ var SearchScreen = React.createClass({
     var text = e.nativeEvent.text.toLowerCase();
     var re = new RegExp(text.toLowerCase());
     var filteredShips = [];
+    // if list is being filtered, use that list instead of the main list
     var ships = (this.state.filterByPrice) ? this.state.filteredByPriceList : this.state.starships;
     for (var i = 0; i < ships.length; ++i) {
       if (ships[i].name.toLowerCase().match(re)) {
@@ -126,25 +128,30 @@ var SearchScreen = React.createClass({
   sortSwitchChange: function(bool) {
     if (this.state.filterByPrice) {
       this.setState({
-        dataSource: this.getDataSource(this.state.filteredByPriceList.reverse())
+        dataSource: this.getDataSource(this.state.filteredByPriceList.reverse()),
+        starships: this.state.starships.reverse(),
       })
     } else {
       this.setState({
-        dataSource: this.getDataSource(this.state.starships.reverse())
+        dataSource: this.getDataSource(this.state.starships.reverse()),
       }); 
     }
   },
 
   filterValueChange: function(value) {
+    // if input is removed, return whole list
     if (value == '') {
       this.setState({
         dataSource: this.getDataSource(this.state.starships),
         filterByPrice: false,
+        filteredByPriceList: [],
       });
     }
 
+    // if an invalid number is entered, do nothing
     if (isNaN(parseFloat(value))) return;
 
+    // otherwise strip list of all ships above the value entered into the input
     var filteredShips = [];
     var ships = this.state.starships;
     for (var i = 0; i < ships.length; ++i) {
