@@ -6,7 +6,7 @@
 'use strict';
 
 // load fake data while developing... their api is slow
-var DEV = true;
+var DEV = false;
 
 
 var React = require('react-native');
@@ -85,7 +85,7 @@ var SearchScreen = React.createClass({
     this.getShips('http://swapi.co/api/starships/').then((results) => {
 
       results.sort(function(a, b){
-        if (a.cost_in_credits === 'unknown') return 1;
+        if (a.cost_in_credits === 'unknown') return -1;
         return parseFloat(a.cost_in_credits) - parseFloat(b.cost_in_credits)
       });
 
@@ -148,7 +148,7 @@ var SearchScreen = React.createClass({
     var filteredShips = [];
     var ships = this.state.starships;
     for (var i = 0; i < ships.length; ++i) {
-      if (parseFloat(ships[i].cost_in_credits) < value) {
+      if (parseFloat(ships[i].cost_in_credits) < value || ships[i].cost_in_credits == 'unknown') {
         filteredShips.push(ships[i]);
       }
     }
