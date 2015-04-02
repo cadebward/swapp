@@ -7,10 +7,11 @@
 
 var React = require('react-native');
 var {
-  Text,
   SliderIOS,
   StyleSheet,
   SwitchIOS,
+  Text,
+  TextInput,
   View,
 } = React;
 
@@ -21,7 +22,7 @@ var FILTER_STATUS = false;
 var CostFilter = React.createClass({
   getInitialState: function() {
     return {
-      filterPrice: Math.floor((0 * 100000) + 1000),
+      filterPrice: null,
       showFilter: false,
       sortSwitch: false,
     }
@@ -47,14 +48,9 @@ var CostFilter = React.createClass({
     this.props.onFilterSwitchChange(value);
   },
 
-  filterSliderChange: function(value) {
-    this.setState({
-      filterPrice: Math.floor((value * 1000000) + 1000)
-    })
-  },
-
-  filterSliderComplete: function(value) {
-    this.props.onSliderChange(Math.floor((value * 1000000) + 1000))
+  filterValue: function(e) {
+    var text = e.nativeEvent.text.toLowerCase();
+    this.props.onFilterValueChange(text)
   },
 
   render: function() {
@@ -73,16 +69,14 @@ var CostFilter = React.createClass({
           <Text style={styles.filterText}>{ SortText }</Text>
           <Switch onChange={this.sortSwitchChange}/>
         </View>
-        <View style={styles.filterContainer}>
-          <Text style={styles.filterText}>Filter Price</Text>
-          <Switch onChange={this.filterSwitchChange}/>
-        </View>
         <View style={styles.slider}>
-          <Text style={styles.sliderText}>Filter Price By: {this.state.filterPrice}</Text>
-          <SliderIOS 
-            style={styles.sliderInput} 
-            onValueChange={this.filterSliderChange}
-            onSlidingComplete={this.filterSliderComplete}
+          <Text style={styles.sliderText}>Do not use commas. eg: 10000</Text>
+          <TextInput 
+            style={styles.textInput}
+            onChange={this.filterValue} 
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Input your max budget"
           />
         </View>
       </View>
@@ -112,9 +106,14 @@ var styles = StyleSheet.create({
     marginLeft: 8,
     marginTop: 5,
   },
-  sliderInput: {
+  textInput: {
     flex: 1,
     height: 30,
+    borderColor: '#eeeeee',
+    borderWidth: 1,
+    margin: 13,
+    marginTop: 1,
+    paddingLeft: 8,
   },
   slider: {
     flex: 2,

@@ -135,42 +135,29 @@ var SearchScreen = React.createClass({
     }
   },
 
-  filterSwitchChange: function(bool) {
-    if (bool) {
+  filterValueChange: function(value) {
+    if (value == '') {
       this.setState({
-        filterByPrice: true
-      })
-      this.filterByPrice();
-    } else {
-      this.setState({
-        filterByPrice: false,
         dataSource: this.getDataSource(this.state.starships),
-      })
+        filterByPrice: false,
+      });
     }
-  },
 
-  sliderChange: function(value) {
-    this.setState({
-      filterPrice: value
-    });
+    if (isNaN(parseFloat(value))) return;
 
-    if (this.state.filterByPrice) {
-      this.filterByPrice();
-    }
-  },
-
-  filterByPrice: function() {
     var filteredShips = [];
     var ships = this.state.starships;
     for (var i = 0; i < ships.length; ++i) {
-      if (parseFloat(ships[i].cost_in_credits) < this.state.filterPrice) {
+      if (parseFloat(ships[i].cost_in_credits) < value) {
         filteredShips.push(ships[i]);
       }
     }
+
     this.setState({
       dataSource: this.getDataSource(filteredShips),
       filteredByPriceList: filteredShips,
-    });
+      filterByPrice: true,
+    })
   },
 
   render: function() {
@@ -186,8 +173,7 @@ var SearchScreen = React.createClass({
         <View style={styles.seperator}/>
         <CostFilter 
           onSortSwitchChange={this.sortSwitchChange} 
-          onFilterSwitchChange={this.filterSwitchChange} 
-          onSliderChange={this.sliderChange}
+          onFilterValueChange={this.filterValueChange}
           showFilter={this.state.showFilter}
           register={this.props.register}
         />
