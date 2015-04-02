@@ -52,7 +52,8 @@ var DetailView = React.createClass({
             loaded: true,
           });
         }
-      }).catch((error) => {this.setState({networkError: true})})
+      // }).catch((error) => {this.setState({networkError: true})})
+      }).catch((error) => {console.log(error)})
     });
   },
 
@@ -92,7 +93,18 @@ var DetailView = React.createClass({
       <View>
         <View style={styles.container}>
           <Text style={styles.title}>{this.props.name}</Text>
-          <Text>Price: { currency(this.props.cost_in_credits) }</Text>
+          <Text style={styles.detail}>Model: { this.props.model }</Text>
+          <Text style={styles.detail}>Manufacturer: { this.props.manufacturer }</Text>
+          <Text style={styles.detail}>Price: { currency(this.props.cost_in_credits) }</Text>
+          <Text style={styles.detail}>Length: { this.props['length'] }</Text>
+          <Text style={styles.detail}>Max Atmosphering Speed: { this.props.max_atmosphering_speed }</Text>
+          <Text style={styles.detail}>Crew: { this.props.crew }</Text>
+          <Text style={styles.detail}>Passengers: { this.props.passengers }</Text>
+          <Text style={styles.detail}>Cargo Capacity: { currency(this.props.cargo_capacity) }</Text>
+          <Text style={styles.detail}>Consumables: { this.props.consumables }</Text>
+          <Text style={styles.detail}>Hyperdrive Rating: { this.props.hyperdrive_rating }</Text>
+          <Text style={styles.detail}>MGLT: { this.props.MGLT }</Text>
+          <Text style={styles.detail}>Starship Class: { this.props.starship_class }</Text>
         </View>
         <View style={styles.pilotsTitle}>
           <Text style={styles.pilots}>Pilots:</Text>
@@ -130,6 +142,9 @@ var styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 16,
     paddingBottom: 5,
+  },
+  detail: {
+    marginTop: 5,
   }
 });
 
